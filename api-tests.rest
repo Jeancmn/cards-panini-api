@@ -1,0 +1,197 @@
+### API del Álbum Panini - Mundial 2026
+### Archivo de pruebas REST para VS Code (requiere extensión REST Client)
+
+@baseUrl = http://localhost:3000
+@contentType = application/json
+
+### ======================================
+### HEALTH CHECK
+### ======================================
+
+### Health Check
+GET {{baseUrl}}/api/health
+
+### Root endpoint
+GET {{baseUrl}}/
+
+### ======================================
+### SELECCIONES
+### ======================================
+
+### Obtener todas las selecciones
+GET {{baseUrl}}/api/selecciones
+
+### Obtener una selección por ID
+# @name getSeleccion
+GET {{baseUrl}}/api/selecciones/UUID_AQUI
+
+### Crear una nueva selección - Argentina
+POST {{baseUrl}}/api/selecciones
+Content-Type: {{contentType}}
+
+{
+  "pais": "Argentina",
+  "confederacion": "CONMEBOL",
+  "campeonatos_mundiales": 3,
+  "escudo_url": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Flag_of_Argentina.svg"
+}
+
+### Crear una nueva selección - Brasil
+POST {{baseUrl}}/api/selecciones
+Content-Type: {{contentType}}
+
+{
+  "pais": "Brasil",
+  "confederacion": "CONMEBOL",
+  "campeonatos_mundiales": 5,
+  "escudo_url": "https://upload.wikimedia.org/wikipedia/commons/0/05/Flag_of_Brazil.svg"
+}
+
+### Crear una nueva selección - México
+POST {{baseUrl}}/api/selecciones
+Content-Type: {{contentType}}
+
+{
+  "pais": "México",
+  "confederacion": "CONCACAF",
+  "campeonatos_mundiales": 0,
+  "escudo_url": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Flag_of_Mexico.svg"
+}
+
+### Crear una nueva selección - España
+POST {{baseUrl}}/api/selecciones
+Content-Type: {{contentType}}
+
+{
+  "pais": "España",
+  "confederacion": "UEFA",
+  "campeonatos_mundiales": 1,
+  "escudo_url": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Flag_of_Spain.svg"
+}
+
+### Crear una nueva selección - Francia
+POST {{baseUrl}}/api/selecciones
+Content-Type: {{contentType}}
+
+{
+  "pais": "Francia",
+  "confederacion": "UEFA",
+  "campeonatos_mundiales": 2,
+  "escudo_url": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Flag_of_France.svg"
+}
+
+### Actualizar una selección
+PUT {{baseUrl}}/api/selecciones/UUID_AQUI
+Content-Type: {{contentType}}
+
+{
+  "campeonatos_mundiales": 4
+}
+
+### Eliminar una selección
+DELETE {{baseUrl}}/api/selecciones/UUID_AQUI
+
+### ======================================
+### JUGADORES
+### ======================================
+
+### Obtener todos los jugadores
+GET {{baseUrl}}/api/jugadores
+
+### Obtener jugadores de una selección específica
+GET {{baseUrl}}/api/jugadores?seleccion_id=UUID_DE_SELECCION
+
+### Obtener un jugador por ID
+GET {{baseUrl}}/api/jugadores/UUID_AQUI
+
+### Crear un nuevo jugador - Lionel Messi
+POST {{baseUrl}}/api/jugadores
+Content-Type: {{contentType}}
+
+{
+  "nombre": "Lionel Messi",
+  "edad": 37,
+  "seleccion_id": "UUID_ARGENTINA_AQUI",
+  "imagen_url": "https://ejemplo.com/messi.jpg",
+  "dribling": 95,
+  "velocidad": 85,
+  "regate": 96,
+  "tiro": 92,
+  "defensa": 38,
+  "pase": 91,
+  "fisico": 65,
+  "posicion": "Delantero",
+  "numero_camiseta": 10
+}
+
+### Crear un nuevo jugador - Neymar Jr
+POST {{baseUrl}}/api/jugadores
+Content-Type: {{contentType}}
+
+{
+  "nombre": "Neymar Jr",
+  "edad": 32,
+  "seleccion_id": "UUID_BRASIL_AQUI",
+  "imagen_url": "https://ejemplo.com/neymar.jpg",
+  "dribling": 94,
+  "velocidad": 87,
+  "regate": 92,
+  "tiro": 86,
+  "defensa": 36,
+  "pase": 85,
+  "fisico": 63,
+  "posicion": "Delantero",
+  "numero_camiseta": 10
+}
+
+### Crear un nuevo jugador - Kylian Mbappé
+POST {{baseUrl}}/api/jugadores
+Content-Type: {{contentType}}
+
+{
+  "nombre": "Kylian Mbappé",
+  "edad": 25,
+  "seleccion_id": "UUID_FRANCIA_AQUI",
+  "imagen_url": "https://ejemplo.com/mbappe.jpg",
+  "dribling": 92,
+  "velocidad": 98,
+  "regate": 90,
+  "tiro": 91,
+  "defensa": 39,
+  "pase": 82,
+  "fisico": 78,
+  "posicion": "Delantero",
+  "numero_camiseta": 10
+}
+
+### Crear un nuevo jugador - Hirving Lozano
+POST {{baseUrl}}/api/jugadores
+Content-Type: {{contentType}}
+
+{
+  "nombre": "Hirving Lozano",
+  "edad": 29,
+  "seleccion_id": "UUID_MEXICO_AQUI",
+  "imagen_url": "https://ejemplo.com/lozano.jpg",
+  "dribling": 84,
+  "velocidad": 91,
+  "regate": 82,
+  "tiro": 81,
+  "defensa": 44,
+  "pase": 77,
+  "fisico": 74,
+  "posicion": "Extremo",
+  "numero_camiseta": 22
+}
+
+### Actualizar un jugador
+PUT {{baseUrl}}/api/jugadores/UUID_AQUI
+Content-Type: {{contentType}}
+
+{
+  "edad": 38,
+  "velocidad": 84
+}
+
+### Eliminar un jugador
+DELETE {{baseUrl}}/api/jugadores/UUID_AQUI

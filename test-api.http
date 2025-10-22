@@ -1,0 +1,49 @@
+### API del Álbum Panini - Mundial 2026
+### Archivo de pruebas - Ejemplos funcionales
+
+@baseUrl = http://localhost:3000
+
+### ====================================
+### 1. OBTENER TODOS LOS JUGADORES
+### ====================================
+GET {{baseUrl}}/api/jugadores
+
+### ====================================
+### 2. OBTENER UN JUGADOR ESPECÍFICO
+### ====================================
+### Primero ejecuta la petición anterior (GET jugadores)
+### Copia el "id" de cualquier jugador
+### Y reemplaza el UUID de abajo
+
+GET {{baseUrl}}/api/jugadores/PEGA_AQUI_EL_ID_DEL_JUGADOR
+
+### Ejemplo real (debes reemplazar con un ID válido de tu BD):
+# GET {{baseUrl}}/api/jugadores/a1b2c3d4-5678-90ab-cdef-1234567890ab
+
+### ====================================
+### 3. OBTENER JUGADORES POR SELECCIÓN
+### ====================================
+### Primero obtén el ID de una selección
+
+GET {{baseUrl}}/api/selecciones
+
+### Luego usa ese ID aquí:
+GET {{baseUrl}}/api/jugadores?seleccion_id=PEGA_AQUI_EL_ID_DE_LA_SELECCION
+
+### ====================================
+### 4. BUSCAR JUGADORES DE ARGENTINA
+### ====================================
+### Tip: Ejecuta GET /api/selecciones primero, copia el ID de Argentina
+### y reemplázalo abajo
+
+# GET {{baseUrl}}/api/jugadores?seleccion_id=ID_DE_ARGENTINA
+
+### ====================================
+### 5. OBTENER TODAS LAS SELECCIONES
+### ====================================
+GET {{baseUrl}}/api/selecciones
+
+### ====================================
+### 6. HEALTH CHECK
+### ====================================
+GET {{baseUrl}}/api/health
