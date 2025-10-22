@@ -50,64 +50,60 @@ SUPABASE_ANON_KEY=tu_supabase_anon_key_aqui
 
 4. **Crear las tablas en Supabase**
 
-Ejecuta el siguiente SQL en el SQL Editor de Supabase:
+En el SQL Editor de Supabase, ejecuta los siguientes scripts en orden:
+
+**📋 Script 1: `supabase-schema.sql` (REQUERIDO)**
+
+Este script crea la estructura completa de la base de datos:
+- ✅ Tablas `selecciones` y `jugadores`
+- ✅ Índices para optimizar consultas
+- ✅ Triggers para actualizar fechas automáticamente
+- ✅ Políticas de seguridad (Row Level Security)
+- ✅ 12 selecciones de ejemplo (Argentina, Brasil, México, Francia, etc.)
+
+**Cómo ejecutar:**
+1. Abre el archivo `supabase-schema.sql`
+2. Copia TODO su contenido
+3. Pégalo en el SQL Editor de Supabase
+4. Haz clic en **RUN**
+
+---
+
+**⚽ Script 2: `supabase-insertar-jugadores.sql` (OPCIONAL)**
+
+Este script inserta 60+ jugadores de ejemplo con sus estadísticas:
+- Incluye estrellas como Messi, Neymar, Mbappé, Cristiano Ronaldo, Harry Kane, etc.
+- Fotos reales de Wikipedia para los jugadores principales
+- Estadísticas completas (dribling, velocidad, regate, tiro, etc.)
+
+**Cómo ejecutar:**
+1. Abre el archivo `supabase-insertar-jugadores.sql`
+2. Copia TODO su contenido
+3. Pégalo en el SQL Editor de Supabase
+4. Haz clic en **RUN**
+
+---
+
+**🔍 Verificar la instalación:**
+
+Ejecuta estos queries en Supabase para confirmar:
 
 ```sql
--- Crear tabla de selecciones
-CREATE TABLE selecciones (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  pais VARCHAR(100) NOT NULL UNIQUE,
-  confederacion VARCHAR(50) NOT NULL,
-  campeonatos_mundiales INTEGER DEFAULT 0,
-  escudo_url TEXT NOT NULL,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
+-- Ver total de selecciones (debe ser 12)
+SELECT COUNT(*) FROM selecciones;
 
--- Crear tabla de jugadores
-CREATE TABLE jugadores (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  nombre VARCHAR(100) NOT NULL,
-  edad INTEGER NOT NULL,
-  seleccion_id UUID NOT NULL REFERENCES selecciones(id) ON DELETE CASCADE,
-  imagen_url TEXT NOT NULL,
-  dribling INTEGER CHECK (dribling >= 0 AND dribling <= 100),
-  velocidad INTEGER CHECK (velocidad >= 0 AND velocidad <= 100),
-  regate INTEGER CHECK (regate >= 0 AND regate <= 100),
-  tiro INTEGER CHECK (tiro >= 0 AND tiro <= 100),
-  defensa INTEGER CHECK (defensa >= 0 AND defensa <= 100),
-  pase INTEGER CHECK (pase >= 0 AND pase <= 100),
-  fisico INTEGER CHECK (fisico >= 0 AND fisico <= 100),
-  posicion VARCHAR(50),
-  numero_camiseta INTEGER,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
+-- Ver total de jugadores (debe ser ~60 si ejecutaste el Script 2)
+SELECT COUNT(*) FROM jugadores;
 
--- Crear índices para mejorar el rendimiento
-CREATE INDEX idx_jugadores_seleccion ON jugadores(seleccion_id);
-CREATE INDEX idx_selecciones_pais ON selecciones(pais);
-
--- Función para actualizar updated_at automáticamente
-CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $$
-BEGIN
-  NEW.updated_at = NOW();
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
--- Triggers para actualizar updated_at
-CREATE TRIGGER update_selecciones_updated_at
-  BEFORE UPDATE ON selecciones
-  FOR EACH ROW
-  EXECUTE FUNCTION update_updated_at_column();
-
-CREATE TRIGGER update_jugadores_updated_at
-  BEFORE UPDATE ON jugadores
-  FOR EACH ROW
-  EXECUTE FUNCTION update_updated_at_column();
+-- Ver jugadores por selección
+SELECT s.pais, COUNT(j.id) as total_jugadores
+FROM selecciones s
+LEFT JOIN jugadores j ON s.id = j.seleccion_id
+GROUP BY s.pais
+ORDER BY total_jugadores DESC;
 ```
+
+**💡 Nota:** También puedes consultar `SUPABASE_SETUP.md` para una guía detallada paso a paso.
 
 ## 🎮 Uso
 
